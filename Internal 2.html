@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Order</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 410px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+            color: black;
+
+        }
+
+        input{
+            width: 94%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e9ffe9;
+            border: 1px solid green;
+            border-radius: 2px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Order Food</h2>
+
+    <input type="text" id="name" placeholder="Customer Name">
+
+    <select id="category">
+        <option value="">Select Category</option>
+        <option value="Fast Food">Fast Food</option>
+        <option value="Drinks">Drinks</option>
+        <option value="Desserts">Desserts</option>
+    </select>
+
+    <select id="item">
+        <option value="">Select Item</option>
+        <option value="Burger">Burger</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Juice">Juice</option>
+        <option value="Soda">Soda</option>
+        <option value="Ice Cream">Ice Cream</option>
+        <option value="Cake">Cake</option>
+    </select>
+
+    <input type="number" id="quantity" placeholder="Quantity">
+
+    <button onclick="orderFood()">Order</button>
+
+    <div id="message" class="error"></div>
+
+    <div id="output" class="output"></div>
+</div>
+
+<script>
+function orderFood() {
+    let name = document.getElementById("name").value;
+    let category = document.getElementById("category").value;
+    let item = document.getElementById("item").value;
+    let quantity = document.getElementById("quantity").value;
+
+    let message = document.getElementById("message");
+    let output = document.getElementById("output");
+
+    message.innerHTML = "";
+    output.innerHTML = "";
+
+    if (name === "" || category === "" || item === "" || quantity === "") {
+        message.innerHTML = "Please fill in all fields!";
+        return;
+    }
+
+    if (quantity <= 0) {
+        message.innerHTML = "Quantity must be greater than 0!";
+        return;
+    }
+
+    let price = 0;
+
+    switch(item) {
+        case "Burger":
+            price = 45;
+            break;
+        case "Pizza":
+            price = 85;
+            break;
+        case "Juice":
+            price = 30;
+            break;
+        case "Soda":
+            price = 15;
+            break;
+        case "Ice Cream":
+            price = 20;
+            break;
+        case "Cake":
+            price = 90;
+            break;
+        default:
+            price = 0;
+    }
+
+    let total = price * quantity;
+    let discount = 0;
+
+    if (total > 500) {
+        discount = total * 0.20;
+    } else if (total > 200) {
+        discount = total * 0.10;
+    }
+
+    let finalTotal = total - discount;
+
+    output.innerHTML = `
+        <h3>Order Summary</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Item:</strong> ${item}</p>
+        <p><strong>Quantity:</strong> ${quantity}</p>
+        <p><strong>Price per item:</strong> M${price}</p>
+        <p><strong>Total before discount:</strong> M${total}</p>
+        <p><strong>Discount:</strong> M${discount}</p>
+        <p><strong>Final Total:</strong> M${finalTotal}</p>
+    `;
+}
+</script>
+
+</body>
+</html>
